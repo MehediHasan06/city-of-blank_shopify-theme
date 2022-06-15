@@ -1,0 +1,111 @@
+<div class="header">
+
+  <!-- Header Top Area -->
+  <div class="header-toparea">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-7 col-sm-6 col-12">
+          <div class="header-topinfo">
+            <ul>
+              <li>Email us :
+                <a href="mailto://contact@example.com">contact@example.com</a>
+              </li>
+              <li>Call us :
+                <a href="tel://+1-800-915-6270">1-800-915-6270</a>
+              </li>
+              <li>{{ shop.name }}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-5 col-sm-6 col-12">
+          <div class="header-topbutton">
+            <a class="tm-button tm-button-white" href="#">Book an Appointment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Bottom Area -->
+  <div class="header-bottomarea">
+    <div class="container">
+      <div class="header-bottominner">
+        <!-- Header Logo -->
+        <div class="header-logo">
+          <a href="/">
+            {{ 'logo.png' | asset_url | img_tag: 'dialia-logo' }}
+          </a>
+        </div>
+        <!-- Header Navigation -->
+        <nav class="tm-navigation">
+          <ul>
+            {% for link in section.settings.menuId.links %}
+              {%if link.links != blank%}
+                <li class="tm-navigation-dropdown">
+                  <a href="{{link.url}}">
+                    {{ link.title }}
+                    {% render 'icon-dropdown' %}
+                  </a>
+                </li>
+              {%else%}
+                <li>
+                  <a href="{{link.url}}">
+                    {{ link.title }}
+                  </a>
+                </li>
+              {%endif%}
+              
+            {% endfor %}
+          </ul>
+        </nav>
+        <!-- Header Icons -->
+        <div class="header-icons">
+          <ul>
+            <li><a href="/cart">
+              {% render 'icon-shopping-bag' %}
+            </a></li>
+            <li><a class="header-searchtrigger" href="#">
+              {% render 'icon-search' %}  
+            </a></li>
+
+            {% if shop.customer_accounts_enabled %}
+              {% if customer %}
+                <a href="/account">
+                  {{ 'Log Out' | customer_logout_link }}
+              {% else %}
+                  Login 
+                </a>
+              {% endif %}
+            {% endif %}
+          </ul>
+        </div>
+        <div class="header-searchbox">
+          <div class="header-searchinner">
+            <form action="#" class="header-searchform">
+              <input placeholder="Enter search keyword.." type="text">
+            </form>
+            <button class="search-close">
+              <i class="zmdi zmdi-close"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="header-mobilemenu clearfix">
+        <div class="tm-mobilenav"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+    "type": "link_list",
+    "id": "menuId",
+    "default": "main-menu",
+    "label": "Header Nav Menu"
+    }
+  ]
+  }
+{% endschema %}
