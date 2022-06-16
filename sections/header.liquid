@@ -13,6 +13,7 @@
               <li>Call us :
                 <a href="tel://+1-800-915-6270">1-800-915-6270</a>
               </li>
+              <!-- Get the shop name -->
               <li>{{ shop.name }}</li>
             </ul>
           </div>
@@ -30,20 +31,24 @@
   <div class="header-bottomarea">
     <div class="container">
       <div class="header-bottominner">
+
         <!-- Header Logo -->
         <div class="header-logo">
           <a href="/">
             {{ 'logo.png' | asset_url | img_tag: 'dialia-logo' }}
           </a>
         </div>
+
         <!-- Header Navigation -->
         <nav class="tm-navigation">
           <ul>
             {% for link in section.settings.menuId.links %}
+
               {%if link.links != blank%}
                 <li class="tm-navigation-dropdown">
                   <a href="{{link.url}}">
                     {{ link.title }}
+                    <!-- Reusable snippet. We're using render method to call it. -->
                     {% render 'icon-dropdown' %}
                   </a>
                 </li>
@@ -58,7 +63,8 @@
             {% endfor %}
           </ul>
         </nav>
-        <!-- Header Icons -->
+
+        <!-- Header Icons (cart, account) -->
         <div class="header-icons">
           <ul>
             <li><a href="/cart">
@@ -68,17 +74,22 @@
               {% render 'icon-search' %}  
             </a></li>
 
-            {% if shop.customer_accounts_enabled %}
-              {% if customer %}
-                <a href="/account">
-                  {{ 'Log Out' | customer_logout_link }}
-              {% else %}
-                  Login 
-                </a>
-              {% endif %}
+            {% if shop.customer_accounts_enabled %}  
+              
+              <li>
+                {% if customer %} <!-- This means if a customer is now logged in -->
+                  <a href="/account"> Account </a>
+                    {{ 'Log Out' | customer_logout_link | replace: '<a', '<a'}}
+                {% else %}
+                    {{ 'Log In' | customer_login_link | replace: '<a', '<a'}} 
+                    {{ 'Register' | customer_register_link | replace: '<a', '<a'}}
+                {% endif %}
+              </li>
+
             {% endif %}
           </ul>
         </div>
+
         <div class="header-searchbox">
           <div class="header-searchinner">
             <form action="#" class="header-searchform">
@@ -89,23 +100,29 @@
             </button>
           </div>
         </div>
+
       </div>
       <div class="header-mobilemenu clearfix">
         <div class="tm-mobilenav"></div>
       </div>
     </div>
   </div>
+
 </div>
+
+
 {% schema %}
+
+
 {
   "name": "Header",
   "settings": [
     {
-    "type": "link_list",
-    "id": "menuId",
-    "default": "main-menu",
-    "label": "Header Nav Menu"
+      "type": "link_list",
+      "id": "menuId",    
+      "default": "main-menu", /* handler of the Main menu in navigation */
+      "label": "Header Nav Menu"
     }
   ]
-  }
+}
 {% endschema %}
