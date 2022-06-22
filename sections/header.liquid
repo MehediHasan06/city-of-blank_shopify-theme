@@ -8,10 +8,10 @@
           <div class="header-topinfo">
             <ul>
               <li>Email us :
-                <a href="mailto://contact@example.com">contact@example.com</a>
+                <a href="#">contact@example.com</a>
               </li>
               <li>Call us :
-                <a href="tel://+1-800-915-6270">1-800-915-6270</a>
+                <a href="#">1-800-915-6270</a>
               </li>
               <!-- Get the shop name -->
               <li>{{ shop.name }}</li>
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 
   <!-- Header Bottom Area -->
   <div class="header-bottomarea">
@@ -44,7 +44,7 @@
           <ul>
             {% for link in section.settings.menuId.links %}
 
-              {%if link.links != blank%}
+              {%if link.links != blank%} <!--If the nav have submenu-->
                 <li class="tm-navigation-dropdown">
                   <a href="{{link.url}}">
                     {{ link.title }}
@@ -52,7 +52,7 @@
                     {% render 'icon-dropdown' %}
                   </a>
                 </li>
-              {%else%}
+              {%else%} <!--If the nav doesn't have submenu-->
                 <li>
                   <a href="{{link.url}}">
                     {{ link.title }}
@@ -67,16 +67,16 @@
         <!-- Header Icons (cart, account) -->
         <div class="header-icons">
           <ul>
-            <li><a href="/cart">
+            <li class="cart"><a href="/cart">
               {% render 'icon-shopping-bag' %}
             </a></li>
-            <li><a class="header-searchtrigger" href="#">
+            <li class="search"><a class="header-searchtrigger" href="#">
               {% render 'icon-search' %}  
             </a></li>
 
             {% if shop.customer_accounts_enabled %}  
               
-              <li>
+              <li class="account">
                 {% if customer %} <!-- This means if a customer is now logged in -->
                   <a href="/account"> Account </a>
                     {{ 'Log Out' | customer_logout_link | replace: '<a', '<a'}}
