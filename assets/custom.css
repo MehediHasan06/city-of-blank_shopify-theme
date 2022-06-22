@@ -1,15 +1,6 @@
 /* Header Navigation */
-.header-bottominner .tm-navigation {
-  flex-grow: 0;
-}
 
 /* Header Icons */
-.header-icons ul {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .header-icons ul>li.cart>a,
 .header-icons ul>li.search>a,
 .header-icons ul>li.account {
