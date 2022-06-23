@@ -1,4 +1,11 @@
-<div class="header">
+{% if section.settings.menuId.links == blank %}
+{% assign main_menu_linklist = linklists[section.settings.menuId].links %}
+{%else%}
+{% assign main_menu_linklist = section.settings.menuId.links %}
+{% endif %}
+
+
+<header class="header">
 
   <!-- Header Top Area -->
   <div class="header-toparea">
@@ -20,12 +27,13 @@
         </div>
         <div class="col-md-5 col-sm-6 col-12">
           <div class="header-topbutton">
-            <a class="tm-button tm-button-white" href="#">Book an Appointment</a>
+            <a class="tm-button tm-button-white"
+               href="#">Book an Appointment</a>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <!-- Header Bottom Area -->
   <div class="header-bottomarea">
@@ -42,32 +50,39 @@
         <!-- Header Navigation -->
         <nav class="tm-navigation flex-grow-0">
           <ul>
-            {% for link in section.settings.menuId.links %}
+            {% for link in main_menu_linklist %}
 
-              {%if link.links != blank%} <!--If the nav have submenu-->
-                <li class="tm-navigation-dropdown">
-                  <a href="{{link.url}}" class="flex justify-content-center">
-                    {{ link.title }}
-                    <!-- Reusable snippet. We're using render method to call it. -->
-                    {% render 'icon-dropdown' %}
-                  </a>
+            <!--If the nav have submenu-->
+            {%if link.links != blank%}
 
-                    <ul>
-                      {% for childLink in link.links %} 
-                        <li>
-                          <a href="{{ childLink.url }}"> {{ childLink.title }}</a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                </li>
-              {%else%} <!--If the nav doesn't have submenu-->
+            {% assign link_handler = link.handle | replace: '-','_'%}
+            <li class="tm-navigation-dropdown"
+                x-data="{ {{ link_handler }}: false}"
+                @click.prevent="{{link_handler}} = !{{link_handler}}">
+              <a href="{{link.url}}"
+                 class="flex justify-content-center">
+                {{ link.title }}
+                {% render 'icon-dropdown' %}
+                <!--Reusable snippet.-->
+              </a>
+
+              <ul>
+                {% for childLink in link.links %}
                 <li>
-                  <a href="{{link.url}}">
-                    {{ link.title }}
-                  </a>
+                  <a href="{{ childLink.url }}"> {{ childLink.title }}</a>
                 </li>
-              {%endif%}
-              
+                {% endfor %}
+              </ul>
+            </li>
+            {%else%}
+            <!--If the nav doesn't have submenu-->
+            <li>
+              <a href="{{link.url}}">
+                {{ link.title }}
+              </a>
+            </li>
+            {%endif%}
+
             {% endfor %}
           </ul>
         </nav>
@@ -75,33 +90,54 @@
         <!-- Header Icons (cart, account) -->
         <div class="header-icons">
           <ul class="flex align-items-center gap-y-2.5">
-            <li class="cart"><a href="/cart">
-              {% render 'icon-shopping-bag' %}
-            </a></li>
-            <li class="search"><a class="header-searchtrigger" href="#">
-              {% render 'icon-search' %}  
-            </a></li>
+            <li class="cart">
+              <a href="/cart">{% render 'icon-shopping-bag' %}</a>
+            </li>
+            <li class="search">
+              <a class="header-searchtrigger"
+                 href="#">{% render 'icon-search' %}</a>
+            </li>
 
-            {% if shop.customer_accounts_enabled %}  
-              
-              <li class="account">
-                {% if customer %} <!-- This means if a customer is now logged in -->
-                  <a href="/account"> Account </a>
-                    {{ 'Log Out' | customer_logout_link | replace: '<a', '<a'}}
-                {% else %}
-                    {{ 'Log In' | customer_login_link | replace: '<a', '<a'}} 
-                    {{ 'Register' | customer_register_link | replace: '<a', '<a'}}
+            <!--Customer account-->
+            {% if shop.customer_accounts_enabled %}
+
+            <li class="account">
+              {% if customer %}
+              <!-- This means if a customer is now logged in -->
+              <a href="/account"> Account </a>
+              {{ 'Log Out' | customer_logout_link | replace: '<a', '<a' }}
+                   {%
+                   else
+                   %}
+                   {{ 'Log In'
+                   |
+                   customer_login_link
+                   |
+                   replace: '<a'
+                   , '<a'
+                   }}
+                   {{ 'Register'
+                   |
+                   customer_register_link
+                   |
+                   replace: '<a'
+                   , '<a'
+                   }}
+                   {%
+                   endif
+                   %}
+                   </li>
+
                 {% endif %}
-              </li>
-
-            {% endif %}
           </ul>
         </div>
- 
+
         <div class="header-searchbox">
           <div class="header-searchinner">
-            <form action="#" class="header-searchform">
-              <input placeholder="Enter search keyword.." type="text">
+            <form action="#"
+                  class="header-searchform">
+              <input placeholder="Enter search keyword.."
+                     type="text">
             </form>
             <button class="search-close">
               <i class="zmdi zmdi-close"></i>
@@ -116,21 +152,21 @@
     </div>
   </div>
 
-</div>
+</header>
 
 
 {% schema %}
 
 
 {
-  "name": "Header",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menuId",    
-      "default": "main-menu", /* handler of the Main menu in navigation */
-      "label": "Header Nav Menu"
-    }
-  ]
+"name": "Header",
+"settings": [
+{
+"type": "link_list",
+"id": "menuId",
+"default": "main-menu", /* handler of the Main menu in navigation */
+"label": "Header Nav Menu"
+}
+]
 }
 {% endschema %}
