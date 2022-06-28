@@ -2,9 +2,9 @@
   "name": "Template 404",
   "wrapper": "div#404-template",
   "sections": {
-    "404_page": {
+    "404_template": {
       "type": "template_404"
     }
   },
-  "order": ["404_page"]
+  "order": ["404_template"]
 }

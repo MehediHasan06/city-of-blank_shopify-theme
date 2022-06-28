@@ -1,0 +1,148 @@
+<div id="wrapper" class="wrapper">
+  
+  <!-- Breadcrumb Area -->
+  <div class="tm-breadcrumb-area tm-padding-section"
+  data-black-overlay="4">
+    <div class="container">
+      <div class="tm-breadcrumb text-center">
+        <h2>{{ section.settings.hero_title }}</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li>Positive Effects of massage...</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--// Breadcrumb Area -->
+
+  <article class="main-content">
+    <!-- Blog Area -->
+    <div class="tm-section blogs-area bg-whtie tm-padding-section">
+      <div class="container">
+        <div class="row">
+
+          <!-- left sided menu -->
+          <div class="col-lg-8">
+            <div class="sticky-sidebar">
+              <div class="tm-blog blogitem">
+
+                <!-- article image & Time -->
+                <div class="tm-blog-top">
+
+                  <!-- using blocks -->
+                  {% for block in section.blocks %}
+                    {% if block.type == "featured_image" %}
+                      <img
+                        src="{{ article.image | img_url: 'medium' }}"
+                        alt="{{ article.image_alt }}"
+                      />
+                    {% endif %}
+                  {% endfor %}
+                  <span class="tm-blog-date">
+                    {{ article.published_at | date: '%Y-%m-%d' }}
+                  </span>
+                </div>
+
+                <div class="tm-blog-bottom">
+                  <!-- article title & author & content -->
+                  <div class="tm-blog-meta">
+                    <span>
+                      {% for block in section.blocks %}
+                        {% if block.type == "article_author" %}
+                          {% if section.settings.enable_author %}
+                            <a href="#">{{ article.author }}</a>
+                          {% endif %}  
+                        {% endif %}   
+                      {% endfor %}                                    
+                    </span>
+                    <span>
+                      {% for block in section.blocks %}
+                        {% if block.type == "article_published_date" %}
+                          {% if section.settings.enable_time %}
+                            <a href="#">{{ article.published_at | date: '%Y-%m-%d' }}</a>
+                          {% endif %}
+                        {% endif %}  
+                      {% endfor %}                                       
+                    </span>
+                  </div>
+                  <h5 class="tm-blog-title">
+                    {% for block in section.blocks %}
+                      {% if block.type == "article_title" %}
+                        {{ article.title }}
+                      {% endif %}     
+                    {% endfor %}               
+                  </h5>
+                  <p>
+                    {% for block in section.blocks %}
+                      {% if block.type == "article_content" %}
+                        {{ article.content }}
+                      {% endif %}
+                    {% endfor %}
+                  </p>                
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </article>
+
+</div>
+ 
+
+
+{% schema %}
+{  
+  "name" : "Template Article",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Blog Details"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_author",
+      "label": "Display Author Name",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_time",
+      "label": "Display Published date",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "article_author",
+      "name": "Author",
+      "limit": 1
+    },
+    {
+      "type": "article_published_date",
+      "name": "Published Date",
+      "limit": 1
+    },
+    {
+      "type": "featured_image",
+      "name": "Thumbnail",
+      "limit": 1
+    },
+    {
+      "type": "article_content",
+      "name": "Content",
+      "limit": 1
+    }
+  ]  
+}
+{% endschema %}

@@ -1,7 +1,7 @@
 {% if section.settings.menuId.links == blank %}
-{% assign main_menu_linklist = linklists[section.settings.menuId].links %}
+  {% assign main_menu_linklist = linklists[section.settings.menuId].links %}
 {%else%}
-{% assign main_menu_linklist = section.settings.menuId.links %}
+  {% assign main_menu_linklist = section.settings.menuId.links %}
 {% endif %}
 
 
@@ -55,32 +55,28 @@
             <!--If the nav have submenu-->
             {%if link.links != blank%}
 
-            {% assign link_handler = link.handle | replace: '-','_'%}
-            <li class="tm-navigation-dropdown"
-                x-data="{ {{ link_handler }}: false}"
-                @click.prevent="{{link_handler}} = !{{link_handler}}">
-              <a href="{{link.url}}"
-                 class="flex justify-content-center">
-                {{ link.title }}
-                {% render 'icon-dropdown' %}
-                <!--Reusable snippet.-->
-              </a>
+              {% assign link_handler = link.handle | replace: '-','_'%}
+              <li class="tm-navigation-dropdown"
+                  x-data="{ {{ link_handler }}: false }"
+                  @click.prevent="{{ link_handler }} = !{{ link_handler }}">
+                <a href="{{ link.url }}"
+                  class="flex justify-content-center">
+                  {{ link.title }}
+                  {% render 'icon-dropdown' %} <!--Reusable snippet.-->
+                </a>
 
-              <ul>
-                {% for childLink in link.links %}
-                <li>
-                  <a href="{{ childLink.url }}"> {{ childLink.title }}</a>
-                </li>
-                {% endfor %}
-              </ul>
-            </li>
-            {%else%}
-            <!--If the nav doesn't have submenu-->
-            <li>
-              <a href="{{link.url}}">
-                {{ link.title }}
-              </a>
-            </li>
+                <ul>
+                  {% for childLink in link.links %}
+                  <li>
+                    <a href="{{ childLink.url }}"> {{ childLink.title }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {%else%} <!--If the nav doesn't have submenu-->
+              <li>
+                <a href="{{link.url}}"> {{ link.title }} </a>
+              </li>
             {%endif%}
 
             {% endfor %}
@@ -101,37 +97,25 @@
             <!--Customer account-->
             {% if shop.customer_accounts_enabled %}
 
-            <li class="account">
-              {% if customer %}
-              <!-- This means if a customer is now logged in -->
-              <a href="/account"> Account </a>
-              {{ 'Log Out' | customer_logout_link | replace: '<a', '<a' }}
-                   {% else %}
-                   {{ 'Log In'| customer_login_link | replace: '<a'
-                   , '<a'
-                   }}
-                   {{ 'Register'
-                   |
-                   customer_register_link
-                   |
-                   replace: '<a'
-                   , '<a'
-                   }}
-                   {%
-                   endif
-                   %}
-                   </li>
-
+              <li class="account">
+                {% if customer %}
+                  <!-- This means if a customer is now logged in -->
+                  <a href="/account"> Account </a>
+                  {{ 'Log Out' | customer_logout_link | replace: '<a', '<a' }}
+                {% else %}
+                    {{ 'Log In'| customer_login_link | replace: '<a', '<a' }}
+                    {{ 'Register'| customer_register_link | replace: '<a', '<a'}}
                 {% endif %}
+              </li>
+
+            {% endif %}
           </ul>
         </div>
 
         <div class="header-searchbox">
           <div class="header-searchinner">
-            <form action="#"
-                  class="header-searchform">
-              <input placeholder="Enter search keyword.."
-                     type="text">
+            <form action="#" class="header-searchform">
+              <input placeholder="Enter search keyword.." type="text">
             </form>
             <button class="search-close">
               <i class="zmdi zmdi-close"></i>
@@ -150,17 +134,15 @@
 
 
 {% schema %}
-
-
 {
-"name": "Header",
-"settings": [
-{
-"type": "link_list",
-"id": "menuId",
-"default": "main-menu", /* handler of the Main menu in navigation */
-"label": "Header Nav Menu"
-}
-]
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menuId",
+      "default": "main-menu", /* handler of the Main menu in navigation */
+      "label": "Header Nav Menu"
+    }
+  ]
 }
 {% endschema %}
