@@ -1,9 +1,9 @@
 {
-  "name": "404-page template",
+  "name": "Template 404",
   "wrapper": "div#404-template",
   "sections": {
     "404_page": {
-      "type": "page404"
+      "type": "template-404"
     }
   },
   "order": [

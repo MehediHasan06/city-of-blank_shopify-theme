@@ -106,14 +106,8 @@
               <!-- This means if a customer is now logged in -->
               <a href="/account"> Account </a>
               {{ 'Log Out' | customer_logout_link | replace: '<a', '<a' }}
-                   {%
-                   else
-                   %}
-                   {{ 'Log In'
-                   |
-                   customer_login_link
-                   |
-                   replace: '<a'
+                   {% else %}
+                   {{ 'Log In'| customer_login_link | replace: '<a'
                    , '<a'
                    }}
                    {{ 'Register'
