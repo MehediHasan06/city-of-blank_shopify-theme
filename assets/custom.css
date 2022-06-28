@@ -12,9 +12,9 @@
 }
 
 /* Header Icons */
-.header-icons ul>li.cart>a,
-.header-icons ul>li.search>a,
-.header-icons ul>li.account {
+.header-icons ul > li.cart > a,
+.header-icons ul > li.search > a,
+.header-icons ul > li.account {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@
   white-space: nowrap;
 }
 
-.header-icons ul>li.account a {
+.header-icons ul > li.account a {
   display: block;
   width: 100%;
   height: auto;

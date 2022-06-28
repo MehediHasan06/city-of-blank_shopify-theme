@@ -3,10 +3,8 @@
   "wrapper": "div#404-template",
   "sections": {
     "404_page": {
-      "type": "template-404"
+      "type": "template_404"
     }
   },
-  "order": [
-    "404_page"
-  ]
+  "order": ["404_page"]
 }
